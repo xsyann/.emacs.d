@@ -2,9 +2,9 @@
 ;;
 ;; Author: Yann KOETH
 ;; Created: Tue Apr  8 16:29:02 2014 (+0200)
-;; Last-Updated: Wed Apr  9 12:14:52 2014 (+0200)
+;; Last-Updated: Wed Apr  9 14:03:31 2014 (+0200)
 ;;           By: Yann KOETH
-;;     Update #: 25
+;;     Update #: 26
 ;;
 
 (require 'header2)
@@ -124,7 +124,7 @@ packages."
             "\n"))
 
   (defun header-author ()
-    (insert header-prefix-string "Made by " (user-full-name) "\n"))
+    (insert header-prefix-string "Made by " (user-login-name) "\n"))
 
   (defsubst header-begin ()
     (insert (concat
