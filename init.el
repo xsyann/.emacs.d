@@ -2,9 +2,9 @@
 ;;
 ;; Author: Yann KOETH
 ;; Created: Tue Apr  8 16:30:50 2014 (+0200)
-;; Last-Updated: Tue Apr  8 20:34:08 2014 (+0200)
+;; Last-Updated: Wed Apr  9 12:20:06 2014 (+0200)
 ;;           By: Yann KOETH
-;;     Update #: 30
+;;     Update #: 79
 ;;
 
 (add-to-list 'load-path "~/.emacs.d")
@@ -53,3 +53,24 @@
           "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
           "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
           "culpa qui officia deserunt mollit anim id est laborum."))
+
+(defun guard-string (s)
+  "Convert Camel case to uppercase underscores."
+  (let ((case-fold-search nil))
+    (upcase (replace-regexp-in-string "\\([[:upper:]]\\)" "_\\1"
+                                      (replace-regexp-in-string "[\. \(\)-]" "_" s) t))))
+
+(defun guard ()
+  "Adds the #define __HEADER_H__, etc."
+  (interactive)
+  (let
+      ((flag-name (guard-string (file-name-nondirectory (buffer-name))))
+;;       (dir-name (guard-string (file-name-nondirectory (directory-file-name(file-name-directory (buffer-file-name))))))
+       )
+    (goto-char (point-max))
+    (insert (concat "#ifndef         __" flag-name "__\n"))
+    (insert (concat "#define         __" flag-name "__\n\n"))
+    (setq begin (point-marker))
+    (insert (concat "\n\n#endif          /* __" flag-name "__ */\n"))
+    (goto-char begin)
+    ))

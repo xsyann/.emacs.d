@@ -1,10 +1,10 @@
 ;;; header2-conf.el
-;; 
+;;
 ;; Author: Yann KOETH
 ;; Created: Tue Apr  8 16:29:02 2014 (+0200)
-;; Last-Updated: Tue Apr  8 20:02:56 2014 (+0200)
+;; Last-Updated: Wed Apr  9 12:14:52 2014 (+0200)
 ;;           By: Yann KOETH
-;;     Update #: 24
+;;     Update #: 25
 ;;
 
 (require 'header2)
@@ -72,7 +72,7 @@
                  (make-string 2 (aref comment-start 0)))
                 ((s-trim-right (nonempty-comment-start)))
                 (t (make-string 2 ?\;)))
-          "\n")
+          "\n\n")
   (setq return-to  (1+ (point))))
 
 ;; Set cursor at the end
