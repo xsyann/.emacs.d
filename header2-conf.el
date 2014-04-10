@@ -2,9 +2,9 @@
 ;;
 ;; Author: Yann KOETH
 ;; Created: Tue Apr  8 16:29:02 2014 (+0200)
-;; Last-Updated: Thu Apr 10 18:31:18 2014 xsyann
+;; Last-Updated: Thu Apr 10 20:26:24 2014 (+0200)
 ;;           By: Yann KOETH
-;;     Update #: 29
+;;     Update #: 99
 ;;
 
 (require 'header2)
@@ -51,15 +51,15 @@
 ;; Trim function
 (defun s-trim-right (s)
   "Remove whitespace at the end of S."
-  (if (string-match "[ \t\n\r]+\\'" s)
-      (replace-match "" t t s)
-    s))
+  (if s (if (string-match "[ \t\n\r]+\\'" s)
+            (replace-match "" t t s)
+          s) nil))
 
 (defun s-trim-left (s)
   "Remove whitespace at the beginning of S."
-  (if (string-match "\\`[ \t\n\r]+" s)
-      (replace-match "" t t s)
-    s))
+  (if s (if (string-match "\\`[ \t\n\r]+" s)
+            (replace-match "" t t s)
+          s) nil))
 
 ;; Blank line without trailing space
 (defsubst header-blank ()
@@ -129,18 +129,19 @@ packages."
   (defsubst header-begin ()
     (insert (concat
              (s-trim-right comment-start)
-             (and (= 1 (length comment-start))
-                  (s-trim-right header-prefix-string))
+             (and (= 1 (length (s-trim-right comment-start)))
+                  (s-trim-right comment-start))
              "\n")))
 
   (defun header-end ()
     (insert (cond ((s-trim-left (nonempty-comment-end)))
-                  ((and comment-start (= 1 (length comment-start)))
+                  ((and comment-start (= 1 (length (s-trim-right comment-start))))
                    (make-string 2 (aref comment-start 0)))
                   ((s-trim-right (nonempty-comment-start)))
                   (t (make-string 2 ?\;)))
             "\n\n")
     (setq return-to  (1+ (point))))
+
 
   (defsubst header-modification-date ()
     (insert header-prefix-string "Last update ")
@@ -191,7 +192,7 @@ packages."
 
      ;; Note: no comment end implies that the full comment-start must be
      ;; used on each line.
-     comment-start)
+     (concat (s-trim-right comment-start) comment-start))
     (t ";; ")))       ; Use Lisp as default.
 
   (auto-make-header)
