@@ -2,9 +2,9 @@
 ;;
 ;; Author: Yann KOETH
 ;; Created: Tue Apr  8 16:29:02 2014 (+0200)
-;; Last-Updated: Wed Apr  9 14:03:31 2014 (+0200)
+;; Last-Updated: Thu Apr 10 18:31:18 2014 xsyann
 ;;           By: Yann KOETH
-;;     Update #: 26
+;;     Update #: 29
 ;;
 
 (require 'header2)
@@ -133,6 +133,15 @@ packages."
                   (s-trim-right header-prefix-string))
              "\n")))
 
+  (defun header-end ()
+    (insert (cond ((s-trim-left (nonempty-comment-end)))
+                  ((and comment-start (= 1 (length comment-start)))
+                   (make-string 2 (aref comment-start 0)))
+                  ((s-trim-right (nonempty-comment-start)))
+                  (t (make-string 2 ?\;)))
+            "\n\n")
+    (setq return-to  (1+ (point))))
+
   (defsubst header-modification-date ()
     (insert header-prefix-string "Last update ")
     (insert (header-date-string) "\n"))
@@ -146,9 +155,6 @@ packages."
     (insert user-mail-address ">\n"))
 
   (register-file-header-action "Last update[ \t]*" 'update-last-modified-date)
-
-  ;; Remove space at the beginning of comment-end
-  (setq comment-end (s-trim-left comment-end))
 
   ;; Add the login at the end of date
   (defun header-date-string ()
