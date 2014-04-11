@@ -2,9 +2,9 @@
 ;;
 ;; Author: Yann KOETH
 ;; Created: Tue Apr  8 16:30:50 2014 (+0200)
-;; Last-Updated: Fri Apr 11 12:30:28 2014 xsyann
+;; Last-Updated: Fri Apr 11 12:41:56 2014 (+0200)
 ;;           By: Yann KOETH
-;;     Update #: 81
+;;     Update #: 83
 ;;
 
 (add-to-list 'load-path "~/.emacs.d")
@@ -22,7 +22,7 @@
 ;; Global conf
 
 (defalias 'yes-or-no-p 'y-or-n-p) ; Get rid of yes-or-no questions - y or n is enough
-(setq require-final-newline t)          ; Final new line
+(setq require-final-newline 'ask)       ; Ask for final newline
 (setq mode-require-final-newline 'ask)  ; Ask for final newline
 (display-time)                          ; Time
 (setq display-time-24hr-format t)       ; 24h format
